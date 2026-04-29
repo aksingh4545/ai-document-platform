@@ -1,0 +1,5 @@
+This is a real test document.
+We are building an AI document processing pipeline.
+This system extracts text, splits it into chunks, and stores it.
+Each chunk will later be used for embeddings and semantic search.
+This is important for building intelligent document systems.
