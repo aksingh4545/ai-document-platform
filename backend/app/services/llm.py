@@ -1,7 +1,5 @@
-import boto3
-import json
-
-bedrock = boto3.client("bedrock-runtime", region_name="us-east-1")
+import os
+import requests
 
 def generate_answer(context, query):
     prompt = f"""
@@ -14,18 +12,20 @@ def generate_answer(context, query):
     {query}
     """
 
-    response = bedrock.invoke_model(
-        modelId="anthropic.claude-3-haiku-20240307-v1:0",
-        body=json.dumps({
-            "messages": [
-                {"role": "user", "content": prompt}
-            ],
-            "max_tokens": 300
-        }),
-        contentType="application/json",
-        accept="application/json"
+    base_url = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+    model = os.getenv("OLLAMA_MODEL", "llama3")
+
+    response = requests.post(
+        f"{base_url}/api/generate",
+        json={
+            "model": model,
+            "prompt": prompt,
+            "stream": False,
+        },
+        timeout=60
     )
 
-    result = json.loads(response["body"].read())
+    response.raise_for_status()
+    result = response.json()
 
-    return result["content"][0]["text"]
+    return result.get("response", "")
