@@ -1,28 +1,31 @@
-import os
-import requests
+import boto3
+import json
 
-OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434/api/generate")
+bedrock = boto3.client("bedrock-runtime", region_name="us-east-1")
 
-def generate_answer(context, question):
+def generate_answer(context, query):
     prompt = f"""
-You are an intelligent assistant.
+    Answer the question based on context.
 
-Use ONLY the context below to answer the question.
-If the answer is not in the context, say "Not found in document".
+    Context:
+    {context}
 
-Context:
-{context}
+    Question:
+    {query}
+    """
 
-Question:
-{question}
+    response = bedrock.invoke_model(
+        modelId="anthropic.claude-3-haiku-20240307-v1:0",
+        body=json.dumps({
+            "messages": [
+                {"role": "user", "content": prompt}
+            ],
+            "max_tokens": 300
+        }),
+        contentType="application/json",
+        accept="application/json"
+    )
 
-Answer:
-"""
+    result = json.loads(response["body"].read())
 
-    response = requests.post(OLLAMA_URL, json={
-        "model": "phi3",
-        "prompt": prompt,
-        "stream": False
-    })
-
-    return response.json()["response"]
+    return result["content"][0]["text"]
