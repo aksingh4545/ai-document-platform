@@ -276,7 +276,9 @@ docker compose up --build -d
 
 Environment options:
 
-* `OLLAMA_URL` to point to your Ollama endpoint (default is `http://host.docker.internal:11434/api/generate`).
+* `AWS_REGION` (default `us-east-1`).
+* `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` (required for Bedrock).
+* `AWS_SESSION_TOKEN` (optional, if using temporary creds).
 
 ### Frontend:
 

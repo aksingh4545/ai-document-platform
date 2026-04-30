@@ -5,3 +5,8 @@ psycopg2-binary
 python-multipart
 requests
 boto3
+sentence-transformers
+faiss-cpu
+numpy
+pymupdf
+python-docx
