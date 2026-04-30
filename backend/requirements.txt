@@ -3,8 +3,5 @@ uvicorn
 sqlalchemy
 psycopg2-binary
 python-multipart
-sentence-transformers
-faiss-cpu
 requests
-pymupdf
-python-docx
+boto3
