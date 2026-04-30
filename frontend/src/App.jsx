@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
+const API = import.meta.env.VITE_API_URL;
 
 function App() {
   const [stats, setStats] = useState(null);
@@ -15,7 +16,7 @@ function App() {
 
   const fetchDashboard = async () => {
     try {
-      const res = await axios.get("/api/dashboard");
+      const res = await axios.get("${API}/api/dashboard");
       setStats(res.data);
     } catch (err) {
       console.error(err);
@@ -31,11 +32,11 @@ function App() {
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await axios.post("/api/upload", formData);
+      const res = await axios.post("${API}/api/upload", formData);
       const docId = res.data.id;
 
-      await axios.post(`/api/process/${docId}`);
-      await axios.post(`/api/embed/${docId}`);
+      await axios.post(`${API}/api/process/${docId}`);
+      await axios.post(`${API}/api/embed/${docId}`);
 
       alert("Document ready!");
       fetchDashboard();
@@ -53,7 +54,7 @@ function App() {
     setLoading(true);
 
     try {
-      const res = await axios.post(`/api/ask?query=${query}`);
+      const res = await axios.post(`${API}/api/ask?query=${query}`);
       setAnswer(res.data.answer);
       fetchDashboard();
     } catch (err) {
