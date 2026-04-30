@@ -16,7 +16,7 @@ function App() {
 
   const fetchDashboard = async () => {
     try {
-      const res = await axios.get("${API}/api/dashboard");
+      const res = await axios.get(`${API}/dashboard`);
       setStats(res.data);
     } catch (err) {
       console.error(err);
@@ -32,11 +32,12 @@ function App() {
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await axios.post("${API}/api/upload", formData);
+      const res = await axios.post(`${API}/upload`, formData);
       const docId = res.data.id;
 
-      await axios.post(`${API}/api/process/${docId}`);
-      await axios.post(`${API}/api/embed/${docId}`);
+      await axios.post(`${API}/process/${docId}`);
+      await axios.post(`${API}/embed/${docId}`);
+
 
       alert("Document ready!");
       fetchDashboard();
@@ -54,7 +55,7 @@ function App() {
     setLoading(true);
 
     try {
-      const res = await axios.post(`${API}/api/ask?query=${query}`);
+      const res = await axios.post(`${API}/ask?query=${query}`);
       setAnswer(res.data.answer);
       fetchDashboard();
     } catch (err) {
