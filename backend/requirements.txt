@@ -6,3 +6,5 @@ python-multipart
 sentence-transformers
 faiss-cpu
 requests
+pymupdf
+python-docx

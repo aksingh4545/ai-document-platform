@@ -1,5 +1,6 @@
 import fitz  # PyMuPDF
 import docx
+import json
 
 def extract_text(file_path):
     if file_path.endswith(".pdf"):

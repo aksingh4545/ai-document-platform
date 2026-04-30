@@ -266,6 +266,18 @@ GitHub Actions pipeline:
 
 ## 🚀 Deployment
 
+### 🐳 Docker (Backend + Postgres)
+
+Run the backend and database locally or on a server:
+
+```bash
+docker compose up --build -d
+```
+
+Environment options:
+
+* `OLLAMA_URL` to point to your Ollama endpoint (default is `http://host.docker.internal:11434/api/generate`).
+
 ### Frontend:
 
 * Vercel

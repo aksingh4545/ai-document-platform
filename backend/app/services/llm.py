@@ -1,6 +1,7 @@
+import os
 import requests
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
+OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434/api/generate")
 
 def generate_answer(context, question):
     prompt = f"""
