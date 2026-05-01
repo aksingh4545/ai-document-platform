@@ -3,6 +3,12 @@ import axios from "axios";
 import "./App.css";
 
 const API = import.meta.env.VITE_API_URL;
+const apiClient = axios.create({
+  baseURL: API,
+  headers: {
+    "ngrok-skip-browser-warning": "true",
+  },
+});
 
 function App() {
   const [stats, setStats] = useState(null);
@@ -16,7 +22,7 @@ function App() {
   }, []);
 
   const fetchDashboard = async () => {
-    const res = await axios.get(`${API}/dashboard`);
+    const res = await apiClient.get("/dashboard");
     setStats(res.data);
   };
 
@@ -28,11 +34,11 @@ function App() {
     const formData = new FormData();
     formData.append("file", file);
 
-    const res = await axios.post(`${API}/upload`, formData);
+    const res = await apiClient.post("/upload", formData);
     const docId = res.data.id;
 
-    await axios.post(`${API}/process/${docId}`);
-    await axios.post(`${API}/embed/${docId}`);
+    await apiClient.post(`/process/${docId}`);
+    await apiClient.post(`/embed/${docId}`);
 
     alert("Document ready!");
     fetchDashboard();
@@ -41,7 +47,7 @@ function App() {
   };
 
   const askQuestion = async () => {
-    const res = await axios.post(`${API}/ask?query=${query}`);
+    const res = await apiClient.post(`/ask?query=${query}`);
     setAnswer(res.data.answer);
   };
 
