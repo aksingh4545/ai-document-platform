@@ -15,6 +15,7 @@ function App() {
   const [file, setFile] = useState(null);
   const [query, setQuery] = useState("");
   const [answer, setAnswer] = useState("");
+  const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -49,6 +50,13 @@ function App() {
   const askQuestion = async () => {
     const res = await apiClient.post(`/ask?query=${query}`);
     setAnswer(res.data.answer);
+    setHistory((prev) => [
+      {
+        question: query,
+        answer: res.data.answer,
+      },
+      ...prev,
+    ]);
   };
 
   return (
@@ -65,6 +73,18 @@ function App() {
       <button onClick={askQuestion}>Ask</button>
 
       <p>{answer}</p>
+
+      {history.length > 0 && (
+        <div>
+          <h2>Query History</h2>
+          {history.map((item, index) => (
+            <div key={`${item.question}-${index}`}>
+              <p><strong>Q:</strong> {item.question}</p>
+              <p><strong>A:</strong> {item.answer}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

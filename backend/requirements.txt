@@ -9,3 +9,5 @@ faiss-cpu
 numpy
 pymupdf
 python-docx
+pytest
+httpx
