@@ -22,7 +22,7 @@ def generate_answer(context, query):
             "prompt": prompt,
             "stream": False,
         },
-        timeout=60
+        timeout=180
     )
 
     response.raise_for_status()
